@@ -4,22 +4,41 @@
     <title> JWT Parser </title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        body,
+        html {
+            height: 100%;
+        }
+    </style>
 </head>
 
 <body>
     <div class="panel"></div>
-    <div class="card">
+    <div class="card h-100">
         <div class="card-header">
-          JWT Parse
+            JWT Parse
         </div>
         <div class="card-body">
-          <h5 class="card-title">Enter JWT</h5>
-          <textarea class="w-100 p-3" type="text" id="jwt-input" placeholder="Enter JWT.." ></textarea>
-          <p class="card-text" id="parsed-jwt-1"></p>
-          <p class="card-text" id="parsed-jwt-2"></p>
-          <p class="card-text" id="parsed-jwt-3"></p>
+            <div class="row">
+                <div class="col-sm">
+                    <h5 class="card-title">Enter JWT</h5>
+                    <textarea style="height:100%;" class="w-100 p-3" type="text" id="jwt-input"
+                        placeholder="Enter JWT.."></textarea>
+
+                </div>
+                <div class="col-sm">
+                    <h5 class="card-title">Keys</h5>
+                    <textarea readonly class="w-100 p-3" id="parsed-jwt-1"></textarea>
+                    <h5 class="card-title">Body</h5>
+                    <textarea readonly class="w-100 p-3" id="parsed-jwt-2" rows="15"></textarea>
+                    <h5 class="card-title">Signing</h5>
+                    <textarea readonly class="w-100 p-3" id="parsed-jwt-3"></textarea>
+
+                </div>
+            </div>
+
         </div>
-      </div>
+    </div>
 
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -31,17 +50,20 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/json2html/1.4.0/json2html.min.js"></script>
+
+
     <script>
-        $(function(){
-            $("#jwt-input").change(() => {
-               let jwt =  $("#jwt-input").val();
-               let jwtParts = jwt.split(".");
-               jwtParts.forEach((item, index) => {
+        $(function () {
+            $("#jwt-input").keyup(() => {
+                let jwt = $("#jwt-input").val();
+                let jwtParts = jwt.split(".");
+                jwtParts.forEach((item, index) => {
                     var tmpData = JSON.parse(atob(item));
-                    var formattedData = JSON.stringify(tmpData, null, '\t');
-                   $(`#parsed-jwt-${index+1}`).text(formattedData);
-               })
-              
+                    var formattedData = JSON.stringify(tmpData, undefined, 4);
+                    $(`#parsed-jwt-${index + 1}`).val(formattedData);
+                })
+
             })
         })
     </script>
